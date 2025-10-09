@@ -5,7 +5,7 @@ import { Container } from '../../styles/GlobalStyles';
 export default function Login() {
   return (
     <Container>
-      <Title isRed={false}>
+      <Title>
         Login
         <small>Oi</small>
       </Title>

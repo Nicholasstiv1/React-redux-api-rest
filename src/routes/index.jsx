@@ -9,7 +9,7 @@ export default function AppRoutes() {
       <Route
         path="/"
         element={
-          <MyRoute isClosed>
+          <MyRoute>
             <Login />
           </MyRoute>
         }
