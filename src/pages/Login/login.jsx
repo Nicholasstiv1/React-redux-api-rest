@@ -1,7 +1,7 @@
 import { Title } from './styled';
 import { Container } from '../../styles/GlobalStyles';
 import { useDispatch } from 'react-redux';
-import { botaoClicado } from '../../features/testSlice';
+import { botaoClicado } from '../../store/modules/testSlice';
 
 export default function Login() {
   const dispatch = useDispatch();
