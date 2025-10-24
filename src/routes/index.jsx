@@ -18,7 +18,7 @@ export default function AppRoutes() {
 
       {/* Protegidas */}
 
-      <Route element={<MyRoute isClosed={true} />}>
+      <Route element={<MyRoute isClosed={false} />}>
         <Route path="/" element={<Alunos />} />
         <Route path="/aluno/:id" element={<Aluno />} />
         <Route path="/aluno/:id/edit" element={<Aluno />} />
