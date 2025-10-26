@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { isEmail } from 'validator';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../../components/Loading/loading';
 
 import axios from '../../services/axios';
 
@@ -11,6 +12,7 @@ export default function Cadastro() {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -33,6 +35,8 @@ export default function Cadastro() {
 
     if (formErrors) return;
 
+    setIsLoading(true);
+
     try {
       await axios.post('/users/', {
         nome,
@@ -41,16 +45,21 @@ export default function Cadastro() {
       });
 
       toast.success('Cadastro concluído com sucesso');
+      setIsLoading(false);
+
       navigate('/login');
     } catch (error) {
       const errors = error?.response?.data?.errors ?? [];
 
       errors.map((e) => toast.error(e));
+      setIsLoading(false);
     }
   }
 
   return (
     <Container>
+      <Loading isLoading={isLoading} />
+
       <h1>Crie sua conta</h1>
 
       <Form onSubmit={handleSubmit}>

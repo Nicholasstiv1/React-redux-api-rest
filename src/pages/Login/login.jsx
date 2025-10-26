@@ -5,10 +5,11 @@ import { toast } from 'react-toastify';
 import { isEmail } from 'validator';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../store/modules/authSlice';
+import Loading from '../../components/Loading/loading';
 
 export default function Login() {
   const dispatch = useDispatch();
-  const { error } = useSelector((state) => state.auth);
+  const { error, isLoading } = useSelector((state) => state.auth);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -44,6 +45,8 @@ export default function Login() {
 
   return (
     <Container>
+      <Loading isLoading={isLoading} />
+
       <h1>Login</h1>
 
       <Form onSubmit={handleSubmit}>
