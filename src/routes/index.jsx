@@ -6,19 +6,20 @@ import Fotos from '../pages/Fotos/fotos';
 import Cadastro from '../pages/Cadastro/cadastro';
 
 import Page404 from '../pages/Page404/page404';
-import MyRoute from './myRoute';
+import PrivateRoute from './PrivateRoute';
+import PublicRoute from './PublicRoute';
 
 export default function AppRoutes() {
   return (
     <Routes>
       {/* Públicas */}
-
-      <Route path="/login" element={<Login />} />
-      <Route path="/cadastro" element={<Cadastro />} />
+      <Route element={<PublicRoute />}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/cadastro" element={<Cadastro />} />
+      </Route>
 
       {/* Protegidas */}
-
-      <Route element={<MyRoute isClosed={false} />}>
+      <Route element={<PrivateRoute isClosed={true} />}>
         <Route path="/" element={<Alunos />} />
         <Route path="/aluno/:id" element={<Aluno />} />
         <Route path="/aluno/:id/edit" element={<Aluno />} />

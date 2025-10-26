@@ -1,8 +1,9 @@
 import { Navigate, useLocation, Outlet } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
-export default function MyRoute({ isClosed }) {
-  const isLoggedIn = false;
+export default function PrivateRoute({ isClosed }) {
+  const { isLoggedIn } = useSelector((state) => state.auth);
   const location = useLocation();
 
   if (isClosed && !isLoggedIn) {
@@ -14,10 +15,10 @@ export default function MyRoute({ isClosed }) {
   return <Outlet />;
 }
 
-MyRoute.defaultProps = {
+PrivateRoute.defaultProps = {
   isClosed: false,
 };
 
-MyRoute.propTypes = {
+PrivateRoute.propTypes = {
   isClosed: PropTypes.bool,
 };

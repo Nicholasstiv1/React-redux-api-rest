@@ -1,10 +1,8 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import testReducer from './modules/testSlice';
-import alunoReducer from './modules/alunoSlice';
+import authReducer from './modules/authSlice';
 
 const rootReducer = combineReducers({
-  test: testReducer,
-  aluno: alunoReducer,
+  auth: authReducer,
 });
 
 export default rootReducer;

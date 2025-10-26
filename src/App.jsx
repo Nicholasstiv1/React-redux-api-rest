@@ -1,23 +1,28 @@
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import axios from './services/axios';
 import GlobalStyle from './styles/GlobalStyles';
 import Header from './components/header/header';
 import AppRoutes from './routes';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
-
 import { ToastContainer } from 'react-toastify';
-import { store, persistor } from './store/store';
 
-function App() {
+export default function App() {
+  const { token } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (token) {
+      axios.defaults.headers.Authorization = `Bearer ${token}`;
+    } else {
+      delete axios.defaults.headers.Authorization;
+    }
+  }, [token]);
+
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <Header />
-        <AppRoutes />
-        <GlobalStyle />
-        <ToastContainer autoClose={3000} className="toast-container" />
-      </PersistGate>
-    </Provider>
+    <>
+      <Header />
+      <AppRoutes />
+      <GlobalStyle />
+      <ToastContainer autoClose={3000} className="toast-container" />
+    </>
   );
 }
-
-export default App;
