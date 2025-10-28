@@ -12,10 +12,11 @@ import PublicRoute from './PublicRoute';
 export default function AppRoutes() {
   return (
     <Routes>
+      <Route path="/cadastro" element={<Cadastro />} />
+
       {/* Públicas */}
       <Route element={<PublicRoute />}>
         <Route path="/login" element={<Login />} />
-        <Route path="/cadastro" element={<Cadastro />} />
       </Route>
 
       {/* Protegidas */}

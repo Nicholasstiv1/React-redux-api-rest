@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from '../../services/axios';
+import { toast } from 'react-toastify';
 
 export const login = createAsyncThunk(
   'auth/login',
@@ -8,7 +9,41 @@ export const login = createAsyncThunk(
       const response = await axios.post('/tokens', { email, password });
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error.response?.data);
+    }
+  }
+);
+
+export const register = createAsyncThunk(
+  'auth/register',
+  async ({ nome, password, email, id }, thunkAPI) => {
+    try {
+      let response;
+
+      if (id) {
+        const updateData = {};
+        if (nome) updateData.nome = nome;
+        if (email) updateData.email = email;
+        if (password) updateData.password = password;
+
+        response = await axios.put('/users', updateData);
+
+        toast.success('Dados atualizados com sucesso');
+        return response.data;
+      } else {
+        response = await axios.post('/users', {
+          nome,
+          password,
+          email,
+        });
+
+        toast.success('Cadastro concluído com sucesso');
+        return response.data;
+      }
+    } catch (error) {
+      const errors = error?.response?.data?.errors ?? [];
+      errors.forEach((e) => toast.error(e));
+      return thunkAPI.rejectWithValue(errors);
     }
   }
 );
@@ -46,6 +81,15 @@ const authSlice = createSlice({
           ...initialState,
           error: action.payload,
         };
+      })
+      .addCase(register.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(register.fulfilled, (state) => {
+        state.isLoading = false;
+      })
+      .addCase(register.rejected, (state) => {
+        state.isLoading = false;
       });
   },
 });
