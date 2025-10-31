@@ -22,6 +22,7 @@ export default function AppRoutes() {
       {/* Protegidas */}
       <Route element={<PrivateRoute isClosed={true} />}>
         <Route path="/" element={<Alunos />} />
+        <Route path="/aluno" element={<Aluno />} />
         <Route path="/aluno/:id" element={<Aluno />} />
         <Route path="/aluno/:id/edit" element={<Aluno />} />
         <Route path="/fotos/:id" element={<Fotos />} />
