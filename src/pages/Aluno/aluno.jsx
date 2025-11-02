@@ -5,10 +5,12 @@ import { isEmail, isInt, isFloat } from 'validator';
 import { toast } from 'react-toastify';
 import Loading from '../../components/Loading/loading';
 import axios from '../../services/axios';
-import { Form } from './styled';
+import { Form, ProfilePicture, Title } from './styled';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../store/modules/authSlice';
 import { persistor } from '../../store/store';
+import { FaUserCircle, FaEdit } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 export default function Aluno() {
   const { id } = useParams();
@@ -21,6 +23,7 @@ export default function Aluno() {
   const [peso, setPeso] = useState('');
   const [altura, setAltura] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [foto, setFoto] = useState('');
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -33,6 +36,7 @@ export default function Aluno() {
         const { data } = await axios.get(`/alunos/${alunoId}`);
         const Foto = data.Fotos?.[0]?.url ?? '';
 
+        setFoto(Foto);
         setNome(data.nome ?? '');
         setSobrenome(data.sobrenome ?? '');
         setEmail(data.email ?? '');
@@ -111,7 +115,7 @@ export default function Aluno() {
           altura: altura,
         });
         toast.success('Aluno criado com sucesso!');
-        navigate(`/alunos/${data.id}/edit`);
+        navigate(`/aluno/${data.id}/edit`);
       }
 
       setIsLoading(false);
@@ -134,7 +138,16 @@ export default function Aluno() {
   return (
     <Container>
       <Loading isLoading={isLoading} />
-      <h1>{id ? 'Editar aluno' : 'Novo aluno'}</h1>
+      <Title>{id ? 'Editar aluno' : 'Novo aluno'}</Title>
+
+      {id && (
+        <ProfilePicture>
+          {foto ? <img src={foto} alt={nome} /> : <FaUserCircle size={180} />}
+          <Link to={`/fotos/${alunoId}`}>
+            <FaEdit size={24} />
+          </Link>
+        </ProfilePicture>
+      )}
 
       <Form onSubmit={handleSubmit}>
         <input
